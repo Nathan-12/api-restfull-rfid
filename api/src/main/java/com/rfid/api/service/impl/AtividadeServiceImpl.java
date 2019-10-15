@@ -55,6 +55,7 @@ public class AtividadeServiceImpl implements AtividadeService {
         Atividade atividade = atividadeRepository.getOne(idAtividade);
         List<Map<String, Object>> arquivos = arquivoRepository.findAllArquivosPorAtividade(idAtividade);
         atividade.getArquivos().removeAll(arquivos);
+        atividadeRepository.save(atividade);
         atividadeRepository.deleteById(idAtividade);
         atividadeRepository.save(atividade);
     }
