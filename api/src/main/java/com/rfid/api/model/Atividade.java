@@ -1,5 +1,8 @@
 package com.rfid.api.model;
 
+import com.rfid.api.model.enums.Midia;
+import com.rfid.api.model.enums.TipoAtividade;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,7 +15,13 @@ public class Atividade {
 
     private String nome;
 
-    @OneToMany(cascade = CascadeType.MERGE)
+    @Enumerated(EnumType.STRING)
+    private TipoAtividade tipoAtividade;
+
+    @Enumerated(EnumType.STRING)
+    private Midia midia;
+
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<Arquivo> arquivos;
 
     public Integer getId() {
@@ -31,8 +40,24 @@ public class Atividade {
         this.nome = nome;
     }
 
+    public TipoAtividade getTipoAtividade() {
+        return tipoAtividade;
+    }
+
+    public void setTipoAtividade(TipoAtividade tipoAtividade) {
+        this.tipoAtividade = tipoAtividade;
+    }
+
     public List<Arquivo> getArquivos() {
         return arquivos;
+    }
+
+    public Midia getMidia() {
+        return midia;
+    }
+
+    public void setMidia(Midia midia) {
+        this.midia = midia;
     }
 
     public void setArquivos(List<Arquivo> arquivos) {

@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class AtividadeServiceImpl implements AtividadeService {
 
@@ -29,6 +32,12 @@ public class AtividadeServiceImpl implements AtividadeService {
     @Autowired
     private ArquivoService arquivoService;
 
+    @Override
+    public Atividade criarAtividade(Atividade atividade){
+        return atividadeRepository.save(atividade);
+    }
+
+
     public void salvarArquivo(MultipartFile arquivo, Integer codigo, Integer idAtividade) {
         this.adicionarAtividade(this.diretorioArquivos, arquivo, codigo, idAtividade);
     }
@@ -39,6 +48,20 @@ public class AtividadeServiceImpl implements AtividadeService {
         Atividade atividade = atividadeRepository.getOne(idAtividade);
         atividade.getArquivos().add(arquivo);
         atividadeRepository.save(atividade);
+    }
+
+    @Override
+    public void removerAtividade(Integer idAtividade){
+        Atividade atividade = atividadeRepository.getOne(idAtividade);
+        List<Map<String, Object>> arquivos = arquivoRepository.findAllArquivosPorAtividade(idAtividade);
+        atividade.getArquivos().removeAll(arquivos);
+        atividadeRepository.deleteById(idAtividade);
+        atividadeRepository.save(atividade);
+    }
+
+    @Override
+    public List<Atividade> listarAtividadesCadastradas(){
+        return atividadeRepository.findAll();
     }
 
 }

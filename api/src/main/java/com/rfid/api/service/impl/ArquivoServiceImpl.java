@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ArquivoServiceImpl implements ArquivoService {
@@ -27,18 +29,29 @@ public class ArquivoServiceImpl implements ArquivoService {
     private ArquivoRepository arquivoRepository;
 
     @Override
-    public Arquivo adicionarArquivo(String diretorio, MultipartFile arquivo, Integer codigo ){
+    public Arquivo adicionarArquivo(String diretorio, MultipartFile file, Integer codigo ){
         Path diretorioPath = Paths.get(this.raiz, diretorio);
         String codigoRfidName = Integer.toString(codigo);
         Path arquivoPath = diretorioPath.resolve("00"+codigoRfidName);
         try {
             Files.createDirectories(diretorioPath);
-            arquivo.transferTo(arquivoPath.toFile());
+            file.transferTo(arquivoPath.toFile());
 
         } catch (IOException e) {
             throw new RuntimeException("Problemas na tentativa de salvar arquivo.", e);
         }
-        return null;
+
+        Arquivo arquivo = new Arquivo();
+        arquivo.setCaminho(diretorio);
+        arquivo.setCodigo(codigo);
+        arquivo.setNome(file.getOriginalFilename());
+
+        return arquivoRepository.save(arquivo);
+    }
+
+    @Override
+    public List<Map<String, Object>> buscarArquivosPorAtividade(Integer id){
+        return this.arquivoRepository.findAllArquivosPorAtividade(id);
     }
 
     public String analisar(String caminho)
