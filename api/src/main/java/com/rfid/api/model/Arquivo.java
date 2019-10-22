@@ -16,6 +16,16 @@ public class Arquivo {
     private Integer codigo;
     private String caminho;
 
+    private Boolean opcao;
+
+    public Boolean getOpcao() {
+        return opcao;
+    }
+
+    public void setOpcao(Boolean opcao) {
+        this.opcao = opcao;
+    }
+
     public Integer getId() {
         return id;
     }

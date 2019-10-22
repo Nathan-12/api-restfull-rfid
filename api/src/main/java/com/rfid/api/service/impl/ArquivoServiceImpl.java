@@ -29,6 +29,24 @@ public class ArquivoServiceImpl implements ArquivoService {
     private ArquivoRepository arquivoRepository;
 
     @Override
+    public Arquivo adicionarArquivoVouF(String diretorio, MultipartFile[] files, Boolean opcao ){
+        Path diretorioPath = Paths.get(this.raiz, diretorio);
+
+        try {
+            Files.createDirectories(diretorioPath);
+
+        } catch (IOException e) {
+            throw new RuntimeException("Problemas na tentativa de salvar arquivo.", e);
+        }
+
+        Arquivo arquivo = new Arquivo();
+        arquivo.setCaminho(diretorio);
+        arquivo.setOpcao(opcao);
+
+        return arquivoRepository.save(arquivo);
+    }
+
+    @Override
     public Arquivo adicionarArquivo(String diretorio, MultipartFile file, Integer codigo ){
         Path diretorioPath = Paths.get(this.raiz, diretorio);
         String codigoRfidName = Integer.toString(codigo);
