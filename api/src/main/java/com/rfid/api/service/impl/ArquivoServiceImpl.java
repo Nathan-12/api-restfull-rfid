@@ -29,7 +29,7 @@ public class ArquivoServiceImpl implements ArquivoService {
     private ArquivoRepository arquivoRepository;
 
     @Override
-    public Arquivo adicionarArquivoVouF(String diretorio, MultipartFile[] files, Boolean opcao ){
+    public Arquivo adicionarArquivoVouF(String diretorio, MultipartFile video, MultipartFile img, Boolean opcao ){
         Path diretorioPath = Paths.get(this.raiz, diretorio);
 
         try {

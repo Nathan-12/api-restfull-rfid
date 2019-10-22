@@ -36,35 +36,13 @@ public class AtividadeController {
     }
 
     @PostMapping("/v-f/{idAtividade}")
-    public String adicionarAtividadeVouF(
-            @RequestParam MultipartFile[] files,
+    public ResponseEntity adicionarAtividadeVouF(
+            @RequestParam MultipartFile video,
+            @RequestParam MultipartFile img,
             @RequestParam Boolean opcao,
             @PathVariable Integer idAtividade){
-        String status = "";
-        File dir = new File(UPLOADED_FOLDER);
-        for (int i = 0; i < files.length; i++) {
-            MultipartFile file = files[i];
-
-            try {
-                byte[] bytes = file.getBytes();
-                atividadeService.salvarArquivoVouF(files, opcao, idAtividade);
-                if (!dir.exists())
-                    dir.mkdirs();
-
-                File uploadFile = new File(dir.getAbsolutePath()
-                        + File.separator + file.getOriginalFilename());
-                BufferedOutputStream outputStream = new BufferedOutputStream(
-                        new FileOutputStream(uploadFile));
-                outputStream.write(bytes);
-                outputStream.close();
-
-                status = status + "You successfully uploaded file=" + file.getOriginalFilename();
-            } catch (Exception e) {
-                status = status + "Failed to upload " + file.getOriginalFilename()+ " " + e.getMessage();
-            }
-        }
-        return status;
-    
+    atividadeService.salvarArquivoVouF(video, img, opcao, idAtividade);
+    return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{idAtividade}")

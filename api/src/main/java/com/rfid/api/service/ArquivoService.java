@@ -10,7 +10,7 @@ public interface ArquivoService {
 
     Arquivo adicionarArquivo(String diretorio, MultipartFile arquivo, Integer codigo );
 
-    Arquivo adicionarArquivoVouF(String diretorio, MultipartFile[] files, Boolean opcao );
+    Arquivo adicionarArquivoVouF(String diretorio, MultipartFile video, MultipartFile img, Boolean opcao );
 
     String analisar(String caminho);
 
