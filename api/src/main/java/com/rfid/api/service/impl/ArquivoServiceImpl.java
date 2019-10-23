@@ -1,7 +1,9 @@
 package com.rfid.api.service.impl;
 
 import com.rfid.api.model.Arquivo;
+import com.rfid.api.model.ArquivoVF;
 import com.rfid.api.repository.ArquivoRepository;
+import com.rfid.api.repository.ArquivoVFRepository;
 import com.rfid.api.service.ArquivoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,23 +30,8 @@ public class ArquivoServiceImpl implements ArquivoService {
     @Autowired
     private ArquivoRepository arquivoRepository;
 
-    @Override
-    public Arquivo adicionarArquivoVouF(String diretorio, MultipartFile video, MultipartFile img, Boolean opcao ){
-        Path diretorioPath = Paths.get(this.raiz, diretorio);
-
-        try {
-            Files.createDirectories(diretorioPath);
-
-        } catch (IOException e) {
-            throw new RuntimeException("Problemas na tentativa de salvar arquivo.", e);
-        }
-
-        Arquivo arquivo = new Arquivo();
-        arquivo.setCaminho(diretorio);
-        arquivo.setOpcao(opcao);
-
-        return arquivoRepository.save(arquivo);
-    }
+    @Autowired
+    private ArquivoVFRepository arquivoVFRepository;
 
     @Override
     public Arquivo adicionarArquivo(String diretorio, MultipartFile file, Integer codigo ){
@@ -65,6 +52,30 @@ public class ArquivoServiceImpl implements ArquivoService {
         arquivo.setNome(file.getOriginalFilename());
 
         return arquivoRepository.save(arquivo);
+    }
+
+    @Override
+    public ArquivoVF adicionarArquivoVF(String diretorio, MultipartFile fileVideo, MultipartFile fileImg, Integer codigoTeste ){
+        Path diretorioPath = Paths.get(this.raiz, diretorio);
+        String NameFileVideo = fileVideo.getOriginalFilename();
+        Path arquivoPathVideo = diretorioPath.resolve(NameFileVideo);
+        String NameFileImg = fileImg.getOriginalFilename();
+        Path arquivoPathImg = diretorioPath.resolve(NameFileImg);
+        try {
+            Files.createDirectories(diretorioPath);
+            fileVideo.transferTo(arquivoPathVideo.toFile());
+            fileImg.transferTo(arquivoPathImg.toFile());
+
+        } catch (IOException e) {
+            throw new RuntimeException("Problemas na tentativa de salvar arquivo.", e);
+        }
+
+        ArquivoVF arquivoVF = new ArquivoVF();
+        arquivoVF.setCaminho(diretorio);
+        arquivoVF.setCodigoTeste(codigoTeste);
+        arquivoVF.setNomeVideo(NameFileVideo);
+        arquivoVF.setNomeImg(NameFileImg);
+        return arquivoVFRepository.save(arquivoVF);
     }
 
     @Override

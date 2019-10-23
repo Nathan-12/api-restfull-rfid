@@ -1,6 +1,7 @@
 package com.rfid.api.service;
 
 import com.rfid.api.model.Arquivo;
+import com.rfid.api.model.ArquivoVF;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface ArquivoService {
 
     Arquivo adicionarArquivo(String diretorio, MultipartFile arquivo, Integer codigo );
 
-    Arquivo adicionarArquivoVouF(String diretorio, MultipartFile video, MultipartFile img, Boolean opcao );
+    ArquivoVF adicionarArquivoVF(String diretorio, MultipartFile fileVideo, MultipartFile fileImg, Integer codigoTeste );
 
     String analisar(String caminho);
 

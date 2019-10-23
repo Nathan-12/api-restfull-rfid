@@ -42,21 +42,9 @@ public class AtividadeServiceImpl implements AtividadeService {
         this.adicionarAtividade(this.diretorioArquivos, arquivo, codigo, idAtividade);
     }
 
-    public void salvarArquivoVouF(MultipartFile video, MultipartFile img, Boolean opcao, Integer idAtividade) {
-        this.adicionarAtividadeVouF(this.diretorioArquivos, video, img, opcao, idAtividade);
-    }
-
     @Override
     public void adicionarAtividade(String diretorio, MultipartFile file, Integer codigo, Integer idAtividade){
         Arquivo arquivo = arquivoService.adicionarArquivo(diretorio, file, codigo);
-        Atividade atividade = atividadeRepository.getOne(idAtividade);
-        atividade.getArquivos().add(arquivo);
-        atividadeRepository.save(atividade);
-    }
-
-    @Override
-    public void adicionarAtividadeVouF(String diretorio, MultipartFile video, MultipartFile img, Boolean opcao, Integer idAtividade){
-        Arquivo arquivo = arquivoService.adicionarArquivoVouF(diretorio, video, img, opcao);
         Atividade atividade = atividadeRepository.getOne(idAtividade);
         atividade.getArquivos().add(arquivo);
         atividadeRepository.save(atividade);

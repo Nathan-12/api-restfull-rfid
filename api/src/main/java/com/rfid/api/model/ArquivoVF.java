@@ -6,14 +6,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Arquivo {
+public class ArquivoVF {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String nome;
-    private Integer codigo;
+    private String nomeVideo;
+    private String nomeImg;
+    private Integer codigoTeste;
     private String caminho;
 
     public Integer getId() {
@@ -24,20 +25,28 @@ public class Arquivo {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeVideo() {
+        return nomeVideo;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeVideo(String nomeVideo) {
+        this.nomeVideo = nomeVideo;
     }
 
-    public Integer getCodigo() {
-        return codigo;
+    public String getNomeImg() {
+        return nomeImg;
     }
 
-    public void setCodigo(Integer codigo) {
-        this.codigo = codigo;
+    public void setNomeImg(String nomeImg) {
+        this.nomeImg = nomeImg;
+    }
+
+    public Integer getCodigoTeste() {
+        return codigoTeste;
+    }
+
+    public void setCodigoTeste(Integer codigoTeste) {
+        this.codigoTeste = codigoTeste;
     }
 
     public String getCaminho() {

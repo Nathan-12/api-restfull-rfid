@@ -35,16 +35,6 @@ public class AtividadeController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PostMapping("/v-f/{idAtividade}")
-    public ResponseEntity adicionarAtividadeVouF(
-            @RequestParam MultipartFile video,
-            @RequestParam MultipartFile img,
-            @RequestParam Boolean opcao,
-            @PathVariable Integer idAtividade){
-    atividadeService.salvarArquivoVouF(video, img, opcao, idAtividade);
-    return new ResponseEntity(HttpStatus.OK);
-    }
-
     @DeleteMapping("/{idAtividade}")
     public ResponseEntity removerAtividade(@PathVariable Integer idAtividade){
         atividadeService.removerAtividade(idAtividade);
