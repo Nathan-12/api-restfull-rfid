@@ -24,6 +24,9 @@ public class Atividade {
     @OneToMany(cascade = CascadeType.REMOVE)
     private List<Arquivo> arquivos;
 
+    @OneToMany(cascade = CascadeType.MERGE)
+    private List<ArquivoVF> arquivoVFS;
+
     public Integer getId() {
         return id;
     }
@@ -62,5 +65,13 @@ public class Atividade {
 
     public void setArquivos(List<Arquivo> arquivos) {
         this.arquivos = arquivos;
+    }
+
+    public List<ArquivoVF> getArquivoVFS() {
+        return arquivoVFS;
+    }
+
+    public void setArquivoVFS(List<ArquivoVF> arquivoVFS) {
+        this.arquivoVFS = arquivoVFS;
     }
 }

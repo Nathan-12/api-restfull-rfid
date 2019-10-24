@@ -8,9 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.List;
 
 @RestController
@@ -19,7 +16,6 @@ public class AtividadeController {
 
     @Autowired
     private AtividadeService atividadeService;
-    private String UPLOADED_FOLDER;
 
     @PostMapping("/adicionar")
     public Atividade adicionarAtividade(@RequestBody Atividade atividade){
@@ -32,6 +28,17 @@ public class AtividadeController {
             @RequestParam Integer codigo,
             @PathVariable Integer idAtividade){
         atividadeService.salvarArquivo(file, codigo, idAtividade);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+    @PostMapping("/add/{idAtividade}")
+    public ResponseEntity adicionarFileAtividadeVF(
+            @RequestParam MultipartFile fileVideo,
+            @RequestParam MultipartFile fileImg,
+            @RequestParam Integer codigoTeste,
+            @PathVariable Integer idAtividade){
+        atividadeService.salvarArquivoVF(fileVideo, fileImg, codigoTeste, idAtividade);
         return new ResponseEntity(HttpStatus.OK);
     }
 

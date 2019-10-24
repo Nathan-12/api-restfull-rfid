@@ -1,6 +1,7 @@
 package com.rfid.api.service.impl;
 
 import com.rfid.api.model.Arquivo;
+import com.rfid.api.model.ArquivoVF;
 import com.rfid.api.model.Atividade;
 import com.rfid.api.repository.ArquivoRepository;
 import com.rfid.api.repository.AtividadeRepository;
@@ -42,11 +43,23 @@ public class AtividadeServiceImpl implements AtividadeService {
         this.adicionarAtividade(this.diretorioArquivos, arquivo, codigo, idAtividade);
     }
 
+    public void salvarArquivoVF(MultipartFile arquivoVideo, MultipartFile arquivoImg, Integer codigoTeste, Integer idAtividade){
+        this.adicionarAtividadeVF(this.diretorioArquivos, arquivoVideo, arquivoImg, codigoTeste, idAtividade);
+    }
+
     @Override
     public void adicionarAtividade(String diretorio, MultipartFile file, Integer codigo, Integer idAtividade){
         Arquivo arquivo = arquivoService.adicionarArquivo(diretorio, file, codigo);
         Atividade atividade = atividadeRepository.getOne(idAtividade);
         atividade.getArquivos().add(arquivo);
+        atividadeRepository.save(atividade);
+    }
+
+    @Override
+    public void adicionarAtividadeVF(String diretorio, MultipartFile fileVideo, MultipartFile fileImg, Integer codigoTeste, Integer idAtividade){
+        ArquivoVF arquivoVF = arquivoService.adicionarArquivoVF(diretorio, fileVideo, fileImg,codigoTeste);
+        Atividade atividade = atividadeRepository.getOne(idAtividade);
+        atividade.getArquivoVFS().add(arquivoVF);
         atividadeRepository.save(atividade);
     }
 
