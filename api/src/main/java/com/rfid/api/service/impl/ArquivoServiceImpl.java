@@ -2,8 +2,10 @@ package com.rfid.api.service.impl;
 
 import com.rfid.api.model.Arquivo;
 import com.rfid.api.model.ArquivoVF;
+import com.rfid.api.model.Atividade;
 import com.rfid.api.repository.ArquivoRepository;
 import com.rfid.api.repository.ArquivoVFRepository;
+import com.rfid.api.repository.AtividadeRepository;
 import com.rfid.api.service.ArquivoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +34,9 @@ public class ArquivoServiceImpl implements ArquivoService {
 
     @Autowired
     private ArquivoVFRepository arquivoVFRepository;
+
+    @Autowired
+    private AtividadeRepository atividadeRepository;
 
     @Override
     public Arquivo adicionarArquivo(String diretorio, MultipartFile file, Integer codigo ){
@@ -81,6 +86,19 @@ public class ArquivoServiceImpl implements ArquivoService {
     @Override
     public List<Map<String, Object>> buscarArquivosPorAtividade(Integer id){
         return this.arquivoRepository.findAllArquivosPorAtividade(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> buscarArquivosVFPorAtividade(Integer id){
+        return this.arquivoVFRepository.findAllArquivosVFPorAtividade(id);
+    }
+
+    @Override
+    public void excluirArquivoAssociacao(Integer idAtividade, Integer id){
+        Arquivo arquivo = arquivoRepository.getOne(id);
+        Atividade atividade = atividadeRepository.getOne(idAtividade);
+        atividade.getArquivos().remove(arquivo);
+        atividadeRepository.save(atividade);
     }
 
     public String analisar(String caminho)

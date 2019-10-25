@@ -20,4 +20,5 @@ public interface AtividadeService {
     List<Atividade> listarAtividadesCadastradas();
 
     void removerAtividade(Integer idAtividade);
+
 }

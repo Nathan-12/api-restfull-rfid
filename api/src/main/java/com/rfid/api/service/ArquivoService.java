@@ -16,4 +16,8 @@ public interface ArquivoService {
     String analisar(String caminho);
 
     List<Map<String, Object>> buscarArquivosPorAtividade(Integer id);
+
+    List<Map<String, Object>> buscarArquivosVFPorAtividade(Integer id);
+
+    void excluirArquivoAssociacao(Integer idAtividade, Integer id);
 }

@@ -4,6 +4,7 @@ import com.rfid.api.model.Arquivo;
 import com.rfid.api.model.ArquivoVF;
 import com.rfid.api.model.Atividade;
 import com.rfid.api.repository.ArquivoRepository;
+import com.rfid.api.repository.ArquivoVFRepository;
 import com.rfid.api.repository.AtividadeRepository;
 import com.rfid.api.service.ArquivoService;
 import com.rfid.api.service.AtividadeService;
@@ -29,6 +30,9 @@ public class AtividadeServiceImpl implements AtividadeService {
 
     @Autowired
     private ArquivoRepository arquivoRepository;
+
+    @Autowired
+    private ArquivoVFRepository arquivoVFRepository;
 
     @Autowired
     private ArquivoService arquivoService;
@@ -65,10 +69,16 @@ public class AtividadeServiceImpl implements AtividadeService {
 
     @Override
     public void removerAtividade(Integer idAtividade){
+
         Atividade atividade = atividadeRepository.getOne(idAtividade);
         List<Map<String, Object>> arquivos = arquivoRepository.findAllArquivosPorAtividade(idAtividade);
-        atividade.getArquivos().removeAll(arquivos);
-        atividadeRepository.deleteById(idAtividade);
+
+        if(arquivos != null){
+            atividade.getArquivos().removeAll(arquivos);
+            atividadeRepository.delete(atividade);
+        }else {
+            atividadeRepository.delete(atividade);
+        }
         atividadeRepository.save(atividade);
     }
 

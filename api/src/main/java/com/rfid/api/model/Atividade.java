@@ -4,6 +4,7 @@ import com.rfid.api.model.enums.Midia;
 import com.rfid.api.model.enums.TipoAtividade;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -24,7 +25,7 @@ public class Atividade {
     @OneToMany(cascade = CascadeType.REMOVE)
     private List<Arquivo> arquivos;
 
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToMany(cascade = CascadeType.REMOVE)
     private List<ArquivoVF> arquivoVFS;
 
     public Integer getId() {
